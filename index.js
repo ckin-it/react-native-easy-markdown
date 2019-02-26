@@ -17,7 +17,11 @@ class Markdown extends Component {
     constructor(props) {
         super(props);
 
-        const rules = SimpleMarkdown.defaultRules;
+	const rules = Object.assign({}, SimpleMarkdown.defaultRules, {
+            heading: Object.assign({}, SimpleMarkdown.defaultRules.heading, {
+                match: SimpleMarkdown.blockRegex(/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n *)*\n/),
+            }),
+        });
         this.parser = SimpleMarkdown.parserFor(rules);
         this.reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
         const blockSource = this.props.children + '\n\n';
